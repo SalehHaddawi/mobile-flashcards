@@ -2,36 +2,42 @@ import * as React from "react";
 import {KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import {useState} from "react";
 import {saveDeckTitle} from "../utils/helpers";
+import VerticalCard from "../components/VerticalCard";
+import {useDispatch} from "react-redux";
+import {createDeck} from "../actions";
 
 
 export default function CreateDeck(props: any) {
     const [title, setTitle] = useState<string>('');
+    const dispatch = useDispatch();
 
     const submit = () => {
-        saveDeckTitle(title);
+        if (title) {
+            saveDeckTitle(title);
 
-        setTitle('');
+            dispatch(createDeck(title));
 
-        props.navigation.navigate('View Deck');
+            props.navigation.navigate('View Deck', {title: title});
+
+            setTitle('');
+        }
     }
 
     return (
         <KeyboardAvoidingView behavior="height" style={styles.container}>
-            <View style={styles.outerOutline}>
-                <View style={styles.outerOutline2}>
-                    <View style={styles.innerOutline}>
+            <VerticalCard>
+                <View style={styles.cardContent}>
+                    <Text style={styles.text}>
+                        What is the title of your new Deck?
+                    </Text>
+                    <TextInput value={title} onChangeText={(text => setTitle(text))} placeholder={'title'} style={styles.title}/>
+                    <TouchableOpacity style={styles.btn} onPress={submit}>
                         <Text style={styles.text}>
-                            What is the title of your new Deck?
+                            Submit
                         </Text>
-                        <TextInput value={title} onChangeText={(text => setTitle(text))} placeholder={'title'} style={styles.title}/>
-                        <TouchableOpacity style={styles.btn} onPress={submit}>
-                            <Text style={styles.text}>
-                                Submit
-                            </Text>
-                        </TouchableOpacity>
-                    </View>
+                    </TouchableOpacity>
                 </View>
-            </View>
+            </VerticalCard>
         </KeyboardAvoidingView>
     );
 }
@@ -43,41 +49,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         padding: 20,
     },
-    outerOutline: {
+    cardContent: {
         flex: 1,
-        alignSelf: 'stretch',
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-        borderColor: '#f3cba9',
-        borderStyle: 'solid',
-        borderWidth: 8,
-        borderRadius: 20,
-    },
-    outerOutline2: {
-        flex: 1,
-        flexGrow: 1,
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-        borderColor: '#f3cba9',
-        borderStyle: 'solid',
-        borderWidth: 4,
-        borderRadius: 8,
-        margin: 6
-    },
-    innerOutline: {
-        flex: 1,
-        alignItems: 'stretch',
-        justifyContent: 'space-around',
-        backgroundColor: 'black',
-        borderColor: '#91744c',
-        borderStyle: 'solid',
-        borderWidth: 4,
-        borderRadius: 6,
-        textAlign: 'center',
-        margin: 16,
-        padding: 6
+        justifyContent: 'space-around'
     },
     text: {
         color: 'white',

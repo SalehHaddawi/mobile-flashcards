@@ -26,6 +26,20 @@ export function saveDeckTitle (title: string) {
     });
 }
 
+export function removeDeck (title: string) {
+    AsyncStorage.getItem(DECKS_KEY).then(JSON.parse).then((data) => {
+        if (!data) {
+            data = {};
+        }
+
+        data[title] = undefined;
+
+        delete data[title];
+
+        AsyncStorage.setItem(DECKS_KEY, JSON.stringify(data));
+    });
+}
+
 export function addCardToDeck (deckTitle: string, card: Question) {
     const decks = AsyncStorage.getItem(DECKS_KEY).then<Deck>(JSON.parse);
 

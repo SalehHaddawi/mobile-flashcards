@@ -1,3 +1,5 @@
+import Decks from "./pages/Decks";
+
 export interface Question {
     question: string;
     answer: string;
@@ -10,8 +12,4 @@ export interface Deck {
 
 export interface Decks {
     [index: string]: Deck
-}
-
-export interface State {
-    decks: Decks
 }

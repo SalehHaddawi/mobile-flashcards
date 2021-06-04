@@ -14,6 +14,12 @@ export interface CreateDeckAction {
     type: string;
     title: string;
 }
+
+export interface RemoveDeckAction {
+    type: string;
+    title: string;
+}
+
 export function receiveDecks(decks: Decks): ReceiveDecksAction {
     return {
         type: RECEIVE_DECKS,
@@ -24,6 +30,13 @@ export function receiveDecks(decks: Decks): ReceiveDecksAction {
 export function createDeck(title: string): CreateDeckAction {
     return {
         type: CREATE_DECK,
+        title
+    }
+}
+
+export function removeDeck(title: string): RemoveDeckAction {
+    return {
+        type: REMOVE_DECK,
         title
     }
 }

@@ -2,18 +2,12 @@ import * as React from "react";
 import {StyleSheet, Text, View} from "react-native";
 
 
-interface CardProps {
-    title: string,
-    subTitle: string
-}
-
-export default function VerticalCard (props: CardProps) {
+export default function VerticalCard (props) {
     return (
         <View style={styles.outerOutline}>
             <View style={styles.outerOutline2}>
                 <View style={styles.innerOutline}>
-                    <Text style={styles.title}>{props.title}</Text>
-                    <Text style={styles.subTitle}>{props.subTitle}</Text>
+                    {props.children ? props.children : null}
                 </View>
             </View>
         </View>
@@ -22,16 +16,31 @@ export default function VerticalCard (props: CardProps) {
 
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        padding: 20,
+    },
     outerOutline: {
         flex: 1,
         alignSelf: 'stretch',
         alignItems: 'stretch',
         justifyContent: 'center',
         backgroundColor: 'black',
-        borderColor: '#f3cba9',
+        // borderColor: '#f3cba9',
         borderStyle: 'solid',
         borderWidth: 8,
         borderRadius: 20,
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 4,
+        },
+        shadowOpacity: 0.32,
+        shadowRadius: 5.46,
+
+        elevation: 9,
     },
     outerOutline2: {
         flex: 1,
@@ -43,28 +52,41 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 4,
         borderRadius: 8,
-        margin: 10
+        margin: 2
     },
     innerOutline: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        justifyContent: 'center',
         backgroundColor: 'black',
         borderColor: '#91744c',
         borderStyle: 'solid',
         borderWidth: 4,
         borderRadius: 6,
         textAlign: 'center',
-        margin: 30
+        margin: 16,
+        padding: 6
     },
-    title: {
+    text: {
         color: 'white',
         fontSize: 36,
-        paddingTop: 30,
+        textAlign: 'center',
     },
-    subTitle: {
-        color: 'gray',
+    title: {
+        color: 'black',
+        fontSize: 36,
+        textAlign: 'center',
+        backgroundColor: 'white',
+        borderRadius: 10,
+    },
+    btn: {
+        color: 'white',
         fontSize: 24,
-        paddingTop: 10,
+        backgroundColor: 'black',
+        borderColor: '#f3cba9',
+        borderStyle: 'solid',
+        borderRadius: 20,
+        borderWidth: 2,
     },
-});
+
+})
