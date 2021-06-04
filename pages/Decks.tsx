@@ -1,20 +1,28 @@
 import * as React from "react";
-import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
+import {Animated, FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
 import HorizontalCard from "../components/HorizontalCard";
 import {useSelector} from "react-redux";
+import {useState} from "react";
 
 
 export default function Decks(props) {
     const decks = useSelector((state) => state);
+    const [bounce, setBounce] = useState(new Animated.Value(1));
 
     const viewDeck = (title) => {
+        Animated.sequence([
+            Animated.timing(bounce, {toValue: 1.04, duration: 200, useNativeDriver: true}),
+            Animated.spring(bounce, {toValue: 1, friction: 4, useNativeDriver: true}),
+        ]).start();
+
         props.navigation.navigate('View Deck', {title});
     }
 
     function _renderItem({item, index}) {
         return (
             <HorizontalCard>
-                <TouchableOpacity onPress={() => viewDeck(item)}>
+                {/*@ts-ignore*/}
+                <TouchableOpacity onPress={() => viewDeck(item)} style={[{transform: [{scale: bounce}]}]}>
                     <Text style={styles.title}>{decks[item].title}</Text>
                     <Text style={styles.subTitle}>{`${decks[item].questions.length} cards`}</Text>
                 </TouchableOpacity>
