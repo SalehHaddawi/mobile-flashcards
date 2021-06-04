@@ -6,17 +6,22 @@ import Decks from "./Decks";
 import CreateDeck from "./CreateDeck";
 import {SafeAreaProvider} from 'react-native-safe-area-context'
 import {useEffect} from "react";
-import {getDecks} from "../utils/helpers";
+import {getDecks, setLocalNotification} from "../utils/helpers";
 import {receiveDecks} from "../actions";
 import {useDispatch} from "react-redux";
 
 export default function Home () {
     const dispatch = useDispatch();
 
+    // on component mount
     useEffect(() => {
+        // get all decks
         getDecks().then((data) => {
             dispatch(receiveDecks(data));
         });
+
+        // set local Notifications
+        setLocalNotification();
     }, []);
 
     const Tab = Platform.OS === 'android' ?

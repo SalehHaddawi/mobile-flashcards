@@ -4,6 +4,7 @@ import {useSelector} from "react-redux";
 import {Decks} from "../types";
 import {useEffect, useState} from "react";
 import VerticalCard from "../components/VerticalCard";
+import {clearLocalNotifications, setLocalNotification} from "../utils/helpers";
 
 
 export default function Quiz(props) {
@@ -26,6 +27,9 @@ export default function Quiz(props) {
         // last question
         if (questionIndex === questions.length - 1) {
             setFinished(true);
+
+            // clear local notifications
+            clearLocalNotifications().then(setLocalNotification);
         }
         // move to next question
         else {
