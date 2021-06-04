@@ -5,9 +5,11 @@ The app will allow users to create different categories of flashcards called "de
 # Testing
 the application was tested with Android device and emulator (API 25)
 
+doesn't work on **ios** for unknown reason (i don't have ios device to test -_-)
+
 # setup
 ```
 npm i
 npm start
-npm run android // or ios
+npm run android 
 ```
