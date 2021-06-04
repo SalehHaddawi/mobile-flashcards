@@ -1,10 +1,11 @@
 import * as React from "react";
-import {KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
+import {KeyboardAvoidingView, StyleSheet, Text, TextInput, TouchableOpacity, View, StatusBar} from "react-native";
 import {useState} from "react";
 import {saveDeckTitle} from "../utils/helpers";
 import VerticalCard from "../components/VerticalCard";
 import {useDispatch} from "react-redux";
 import {createDeck} from "../actions";
+import {Header} from "@react-navigation/stack";
 
 
 export default function CreateDeck(props: any) {
@@ -30,7 +31,7 @@ export default function CreateDeck(props: any) {
                     <Text style={styles.text}>
                         What is the title of your new Deck?
                     </Text>
-                    <TextInput value={title} onChangeText={(text => setTitle(text))} placeholder={'title'} style={styles.title}/>
+                    <TextInput value={title} onChangeText={(text => setTitle(text))} placeholder={'title'} style={styles.input}/>
                     <TouchableOpacity style={styles.btn} onPress={submit}>
                         <Text style={styles.text}>
                             Submit
@@ -58,12 +59,11 @@ const styles = StyleSheet.create({
         fontSize: 36,
         textAlign: 'center',
     },
-    title: {
+    input: {
         color: 'black',
         fontSize: 36,
         textAlign: 'center',
         backgroundColor: 'white',
-        borderRadius: 10,
     },
     btn: {
         color: 'white',
@@ -71,7 +71,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderColor: '#f3cba9',
         borderStyle: 'solid',
-        borderRadius: 20,
         borderWidth: 2,
     },
 

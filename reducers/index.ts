@@ -1,5 +1,6 @@
 import {Decks} from "../types";
 import {
+    ADD_CARD, AddCardAction,
     CREATE_DECK,
     CreateDeckAction,
     RECEIVE_DECKS,
@@ -8,7 +9,7 @@ import {
     RemoveDeckAction
 } from "../actions";
 
-type AppAction = ReceiveDecksAction | CreateDeckAction;
+type AppAction = ReceiveDecksAction | CreateDeckAction | AddCardAction;
 
 export default function decks (state: Decks = {}, action: AppAction) {
     let ac;
@@ -40,6 +41,19 @@ export default function decks (state: Decks = {}, action: AppAction) {
             delete _state[ac.title];
 
             return _state;
+        case ADD_CARD:
+            ac = action as AddCardAction;
+
+            return {
+                ...state,
+                [ac.deckTitle]: {
+                    title: ac.deckTitle,
+                    questions: state[ac.deckTitle].questions.concat({
+                        question: ac.question,
+                        answer: ac.answer
+                    })
+                }
+            }
         default:
             return state;
     }

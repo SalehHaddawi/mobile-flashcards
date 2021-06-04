@@ -1,4 +1,4 @@
-import {Decks} from "../types";
+import {Decks, Question} from "../types";
 
 export const RECEIVE_DECKS = 'RECEIVE_DECKS';
 export const CREATE_DECK = 'CREATE_DECK';
@@ -20,6 +20,13 @@ export interface RemoveDeckAction {
     title: string;
 }
 
+export interface AddCardAction {
+    type: string;
+    deckTitle: string;
+    question: string;
+    answer: string;
+}
+
 export function receiveDecks(decks: Decks): ReceiveDecksAction {
     return {
         type: RECEIVE_DECKS,
@@ -38,5 +45,14 @@ export function removeDeck(title: string): RemoveDeckAction {
     return {
         type: REMOVE_DECK,
         title
+    }
+}
+
+export function addCard(deckTitle: string, card: Question): AddCardAction {
+    return {
+        type: ADD_CARD,
+        deckTitle,
+        question: card.question,
+        answer: card.answer
     }
 }

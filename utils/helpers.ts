@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import {Deck, Question} from "../types";
+import {Question} from "../types";
 
-export const DECKS_KEY = 'mobile-flashcards:cards';
+export const DECKS_KEY = 'mobile-flashcards:deck';
 
 export function getDecks () {
     return AsyncStorage.getItem(DECKS_KEY).then(JSON.parse);
@@ -41,12 +41,12 @@ export function removeDeck (title: string) {
 }
 
 export function addCardToDeck (deckTitle: string, card: Question) {
-    const decks = AsyncStorage.getItem(DECKS_KEY).then<Deck>(JSON.parse);
+    AsyncStorage.getItem(DECKS_KEY).then(JSON.parse).then((data) => {
+        data[deckTitle].questions.push({
+            question: card.question,
+            answer: card.answer
+        });
 
-    decks[deckTitle].questions.concat({
-        question: card.question,
-        answer: card.answer
+        AsyncStorage.setItem(DECKS_KEY, JSON.stringify(data));
     });
-
-    AsyncStorage.setItem(DECKS_KEY, JSON.stringify(decks));
 }

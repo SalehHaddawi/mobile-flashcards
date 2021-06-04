@@ -8,7 +8,7 @@ import * as helpers from "../utils/helpers";
 import * as actions from "../actions";
 
 
-function ViewDeck (props) {
+export default function ViewDeck (props) {
 
     const title = props.route.params.title;
     const decks = useSelector<Decks>((state: Decks) => state);
@@ -27,12 +27,22 @@ function ViewDeck (props) {
         props.navigation.goBack();
     }
 
+    const _addQuestion = () => {
+        props.navigation.navigate('Add Question', { title: title });
+    }
+
+    const _takeQuiz = () => {
+        props.navigation.navigate('Quiz', {title: title});
+    }
+
     if (!decks[title]) {
         return <Text>{''}</Text>
     }
 
+    const numOfQuestion = decks[title].questions.length;
+
     return (
-        <KeyboardAvoidingView behavior="height" style={styles.container}>
+        <View style={styles.container}>
             <VerticalCard>
                 <View style={styles.cardContent}>
                     <View>
@@ -40,17 +50,17 @@ function ViewDeck (props) {
                             {title}
                         </Text>
                         <Text style={styles.text}>
-                            {decks[title].questions.length} cards
+                            {decks[title].questions.length} card{numOfQuestion > 1 || numOfQuestion === 0 ? 's' : null}
                         </Text>
                     </View>
 
                     <View>
-                        <TouchableOpacity style={styles.btn}>
+                        <TouchableOpacity style={styles.btn} onPress={_addQuestion}>
                             <Text style={styles.btnText}>
                                 Add Card
                             </Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btn}>
+                        <TouchableOpacity style={styles.btn} onPress={_takeQuiz}>
                             <Text style={styles.btnText}>
                                 Start Quiz
                             </Text>
@@ -62,16 +72,9 @@ function ViewDeck (props) {
                     </View>
                 </View>
             </VerticalCard>
-        </KeyboardAvoidingView>
+        </View>
     );
 }
-
-export default React.memo(ViewDeck, (props, nextProps) => {
-    const decks = useSelector<Decks>((state: Decks) => state);
-    const title = props.route.params.title;
-
-    return !decks[title];
-});
 
 const styles = StyleSheet.create({
     container: {

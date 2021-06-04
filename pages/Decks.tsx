@@ -1,24 +1,14 @@
 import * as React from "react";
 import {FlatList, StyleSheet, Text, TouchableOpacity, View} from "react-native";
-import {useEffect} from "react";
 import HorizontalCard from "../components/HorizontalCard";
-import {getDecks} from "../utils/helpers";
-import {useDispatch, useSelector} from "react-redux";
-import {receiveDecks, removeDeck} from "../actions";
+import {useSelector} from "react-redux";
 
 
 export default function Decks(props) {
-    const dispatch = useDispatch();
     const decks = useSelector((state) => state);
 
-    useEffect(() => {
-        getDecks().then((data) => {
-            dispatch(receiveDecks(data));
-        });
-    }, []);
-
     const viewDeck = (title) => {
-        props.navigation.navigate('View Deck', { title });
+        props.navigation.navigate('View Deck', {title});
     }
 
     function _renderItem({item, index}) {
@@ -33,13 +23,30 @@ export default function Decks(props) {
     }
 
     return (
-        <View style={{ flex: 1, flexDirection:'column', justifyContent: 'center', paddingHorizontal: 8, paddingTop: 40}}>
-            <FlatList data={Object.keys(decks)} renderItem={_renderItem} keyExtractor={(item => item)}/>
+        <View style={styles.container}>
+            {Object.keys(decks).length > 0 &&
+                <FlatList data={Object.keys(decks)} renderItem={_renderItem} keyExtractor={(item => item)}/>
+            }
+
+            {Object.keys(decks).length === 0 &&
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.emptyText}>
+                        You Don't have any Decks start by creating one!
+                    </Text>
+                </View>
+            }
         </View>
     );
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'stretch',
+        paddingHorizontal: 8,
+        paddingTop: 40
+    },
     title: {
         color: 'white',
         fontSize: 36,
@@ -50,5 +57,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         paddingVertical: 10,
         textAlign: 'center'
+    },
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    emptyText: {
+        fontSize: 32,
+        textAlign: 'center',
     }
 })

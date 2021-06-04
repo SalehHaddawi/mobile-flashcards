@@ -1,16 +1,23 @@
 import * as React from "react";
 import {StyleSheet, Text, View} from "react-native";
+import FlipCard from 'react-native-flip-card'
 
 
-export default function VerticalCard (props) {
+export default function VerticalCard ({ style = {}, children = null, flip= false, onFlipEnd = () => {}}) {
+
     return (
-        <View style={styles.outerOutline}>
-            <View style={styles.outerOutline2}>
-                <View style={styles.innerOutline}>
-                    {props.children ? props.children : null}
+        <FlipCard style={styles.container} flipHorizontal={true} flipVertical={false} clickable={false} useNativeDriver={true} flip={flip} onFlipEnd={onFlipEnd}>
+            <View style={[styles.outerOutline, style]}>
+                <View style={styles.outerOutline2}>
+                    {children ? children : null}
                 </View>
             </View>
-        </View>
+            <View style={[styles.outerOutline, style]}>
+                <View style={styles.outerOutline2}>
+                    {children ? children : null}
+                </View>
+            </View>
+        </FlipCard>
     );
 }
 
@@ -18,9 +25,9 @@ export default function VerticalCard (props) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
         justifyContent: 'space-between',
-        padding: 20,
+        alignSelf: 'stretch',
+        alignItems: 'stretch',
     },
     outerOutline: {
         flex: 1,
@@ -52,41 +59,7 @@ const styles = StyleSheet.create({
         borderStyle: 'solid',
         borderWidth: 4,
         borderRadius: 8,
-        margin: 2
-    },
-    innerOutline: {
-        flex: 1,
-        alignItems: 'stretch',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-        borderColor: '#91744c',
-        borderStyle: 'solid',
-        borderWidth: 4,
-        borderRadius: 6,
-        textAlign: 'center',
-        margin: 16,
+        margin: 2,
         padding: 6
     },
-    text: {
-        color: 'white',
-        fontSize: 36,
-        textAlign: 'center',
-    },
-    title: {
-        color: 'black',
-        fontSize: 36,
-        textAlign: 'center',
-        backgroundColor: 'white',
-        borderRadius: 10,
-    },
-    btn: {
-        color: 'white',
-        fontSize: 24,
-        backgroundColor: 'black',
-        borderColor: '#f3cba9',
-        borderStyle: 'solid',
-        borderRadius: 20,
-        borderWidth: 2,
-    },
-
 })
